@@ -1,67 +1,65 @@
-# assign a variable to the list of temperatures
-temperatures_C = [33,66,65,0,59,60,62,64,70,76,80,69,80,83,68,79,61,53,50,49,53,48,45,39]
+import math
 
-# 1. Calculate the minimum of the list and print the value using print()
-temp_min = min(temperatures_C)
-print(temp_min)
+# Variables
+points = [(4, 5), (-0, 2), (4, 7), (1, -3), (3, -2), (4, 5),
+          (3, 2), (5, 7), (-5, 7), (2, 2), (-4, 5), (0, -2),
+          (-4, 7), (-1, 3), (-3, 2), (-4, -5), (-3, 2),
+          (5, 7), (5, 7), (2, 2), (9, 9), (-8, -9)]
 
-# 2. Calculate the maximum of the list and print the value using print()
-temp_max = max(temperatures_C)
-print(temp_max)
+# 2. Calculate how many arrows have fallen in each quadrant.
+q1 = 0
+q2 = 0
+q3 = 0
+q4 = 0
 
-# 3. Items in the list that are greater than 70ºC and print the result
-for i in range(len(temperatures_C)):
-    if temperatures_C[i] >= 70:
-        print(temperatures_C[i])
+for i in range(len(points)):
+    if(points[i][0] >= 0) & (points[i][1] >= 0):
+        q1 += 1
+    elif (points[i][0] >= 0) & (points[i][1] <= 0):
+        q2 += 1
+    elif (points[i][0] <= 0) & (points[i][1] <= 0):
+        q3 += 1
+    elif (points[i][0] <= 0) & (points[i][1] >= 0):
+        q4 += 1
 
-# 4. Calculate the mean temperature throughout the day and print the result
+print("Q1:", q1)
+print("Q2:", q2)
+print("Q3:", q3)
+print("Q4:", q4)
 
-average = sum(temperatures_C)/len(temperatures_C)
-print(average)
+# 3. Find the point closest to the center. Calculate its distance to the center
+# Defining a function that calculates the distance to the center can help.
 
-# 5.1 Solve the fault in the sensor by estimating a value
 
-estimated_value = sum(temperatures_C)/23
+def euclidean_distance(plot):
+    distance = math.sqrt((plot[0])**2 + (plot[1]**2))
+    return distance
 
-# 5.2 Update of the estimated value at 03:00 on the list
 
-temperatures_C[3] = estimated_value
+min_distance = euclidean_distance(points[0])
+closest_point = points[0]
 
-print(temperatures_C)
+for i in range(1, len(points)):
+    if euclidean_distance(points[i]) < min_distance:
+        min_distance = euclidean_distance(points[i])
+        closest_point = points[i]
 
-# Bonus: convert the list of ºC to ºFarenheit
+print("The closest point is", closest_point)
 
-aux = 0
-temperatures_F = []
+# 4. If the target has a radius of 9, calculate the number of arrows that
+# must be picked up in the forest.
 
-for i in range(len(temperatures_C)):
-     aux = 1.8 * temperatures_C[i] + 32
-     temperatures_F.append(aux)
+out = 0
+for i in range(0, len(points)):
+    if euclidean_distance(points[i]) > 9:
+        out += 1
 
-print(temperatures_F)
+print("The number of arrows that must be picked up in the forest is", out)
 
-# Print True or False depending on whether you would change the cooling system or not
 
-sum_temp = 0
-hours_greater_70 = 0
-aux = False
 
-for i in range(len(temperatures_C)):
-    if temperatures_C[i] >= 70:
-        hours_greater_70 += 1
-    else:
-        hours_greater_70 = 0
 
-    if hours_greater_70 > 4 or temperatures_C[i] > 80:
-        aux = True
-        break
 
-    sum_temp += temperatures_C[i]
-
-if aux or sum_temp/len(temperatures_C) > 65:
-    print("True")
-else:
-    print("False")
 
 
 
