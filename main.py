@@ -6,6 +6,18 @@ points = [(4, 5), (-0, 2), (4, 7), (1, -3), (3, -2), (4, 5),
           (-4, 7), (-1, 3), (-3, 2), (-4, -5), (-3, 2),
           (5, 7), (5, 7), (2, 2), (9, 9), (-8, -9)]
 
+# 1. Robin Hood is famous for hitting an arrow with another arrow. Did you get it?
+
+hitting_arrow = 0
+hitting_pos = {}
+for i in range(len(points)):
+    for y in range(i+1,len(points)):
+        if(points[i][0] == points[y][0]) & (points[i][1] == points[y][1]):
+            hitting_pos[y] = 1
+
+print(len(hitting_pos))
+
+
 # 2. Calculate how many arrows have fallen in each quadrant.
 q1 = 0
 q2 = 0
